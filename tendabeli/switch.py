@@ -102,10 +102,12 @@ class TendaBeliSwitch(SwitchEntity):
         self._state =  self._plug.is_on
 
     async def async_turn_on(self, **kwargs)-> None:
-        self._plug.send_toggle_request()
+        if not self.is_on():
+            self._plug.send_toggle_request()
 
     async def async_turn_off(self, **kwargs)-> None:
-       self._plug.send_toggle_request()
+       if self.is_on():
+           self._plug.send_toggle_request()
 
     async def async_toggle(self, **kwargs):
         self._plug.send_toggle_request()
